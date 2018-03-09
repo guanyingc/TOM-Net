@@ -1,0 +1,4 @@
+*.pyc
+*.t7
+tmp/
+data
