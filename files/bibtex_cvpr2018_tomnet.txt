@@ -1,0 +1,6 @@
+@inproceedings{chen2018tomnet,
+  title={TOM-Net: Learning Transparent Object Matting from a Single Image},
+  author={Chen, Guanying and Han, Kai and Wong, Kwan-Yee K.},
+  booktitle={CVPR},
+  year={2018}
+}
