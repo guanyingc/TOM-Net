@@ -119,4 +119,59 @@ function M.ColorJitter(opt)
    return M.RandomOrder(ts)
 end
 
+function M.ColorJitterSingle(opt)
+   local brightness = opt.brightness or 0
+   local contrast = opt.contrast or 0
+   local saturation = opt.saturation or 0
+
+   local ts = {}
+   if brightness ~= 0 then
+      table.insert(ts, M.Brightness(brightness))
+   end
+   if contrast ~= 0 then
+      table.insert(ts, M.Contrast_single(contrast))
+   end
+   if saturation ~= 0 then
+      table.insert(ts, M.Saturation_single(saturation))
+   end
+
+   if #ts == 0 then
+      return function(input) return input end
+   end
+
+   return M.RandomOrder(ts)
+end
+
+function M.Contrast_single(var)
+   local gs
+
+   return function(input)
+      gs = gs or input.new()
+      gs:resizeAs(input)
+
+      grayscale(gs[{{1,3},{},{}}], input[{{1,3},{},{}}])
+
+      gs[{{1,3},{},{}}]:fill(gs[1]:mean())
+
+      local alpha = 1.0 + torch.uniform(-var, var)
+      blend(input, gs, alpha)
+      return input
+   end
+end
+
+function M.Saturation_single(var)
+   local gs
+
+   return function(input)
+      gs = gs or input.new()
+      gs:resizeAs(input)
+
+      grayscale(gs[{{1,3},{},{}}], input[{{1,3},{},{}}])
+
+      local alpha = 1.0 + torch.uniform(-var, var)
+      blend(input, gs, alpha)
+      return input
+   end
+end
+
 return M

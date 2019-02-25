@@ -52,15 +52,25 @@ function eval_utils.getInputData(param)
         gt_flow[1]:mul(param.h / f_h)
     end
     img_ref, img_tar, rho = eval_utils.preprocess(param, img_ref, img_tar, gt_mask, gt_rho)
-    local input = img_tar:view(1, 3, h, w)
+    --local input = img_tar:view(1, 3, h, w)
+   local input, trimap
+   if param.in_bg then
+       input = img_tar.new():resize(1, 6, h, w)
+       input[{{1}, {1,3}}] = img_ref
+       input[{{1}, {4,6}}] = img_tar
+   else
+       input = img_tar:view(1, 3, h, w)
+   end
+
     if param.cuda then
         input   = input:cuda()
         img_ref = img_ref:cuda()
+        img_tar = img_tar:cuda()
         gt_flow = gt_flow:cuda()
         gt_mask = gt_mask:cuda()
         gt_rho  = gt_rho:cuda()
     end
-    local data = {input = input, bg = img_ref, flow=gt_flow, mask=gt_mask, rho=gt_rho}
+    local data = {input = input, tar = img_tar, bg = img_ref, flow=gt_flow, mask=gt_mask, rho=gt_rho}
     return data
 end
 

@@ -22,6 +22,8 @@ cmd:option('-input_img',   '',      'If empty, use input_root and img_list to sp
 cmd:option('-input_root',  'data/datasets/TOM-Net_Real_Test_876')
 cmd:option('-img_list',    'Sample_paper.txt',  'Name of image list')
 cmd:option('-have_ref',    true,                'Input have background image')
+cmd:option('-in_trimap',   false,               'Takes trimap as input')
+cmd:option('-in_bg',       false,               'Takes background image as input')
 cmd:option('-max_img_num',  -1,                 'Maximum test number of images')
 cmd:option('-width',       448,                 'Image width')
 cmd:option('-height',      448,                 'Image height')
@@ -31,14 +33,41 @@ local opt = cmd:parse(arg)
 function getInputData(img_path)
    local w, h    = opt.width, opt.height
    local img_tar = image.load(paths.concat(opt.input_root, img_path[1]), 3)
+   local input
    img_tar = image.scale(img_tar, w, h, 'bilinear'):cuda()
    local img_ref
    if opt.have_ref then
        img_ref = image.load(paths.concat(opt.input_root, img_path[2]), 3)
        img_ref = image.scale(img_ref, w, h, 'bilinear'):cuda()
    end
-   img_tar = img_tar:view(1, 3, h, w)
-   return {input = img_tar, bg = img_ref}
+   --img_tar = img_tar:view(1, 3, h, w)
+   local input, trimap
+   if opt.in_bg then
+       input = img_tar.new():resize(1, 6, h, w)
+       input[{{1}, {1,3}}] = img_ref
+       input[{{1}, {4,6}}] = img_tar
+   elseif opt.in_trimap then
+       trimap = image.load(paths.concat(opt.input_root, img_path[3]))
+       if trimap:nDimension() == 3 then
+           trimap = trimap[{1}]
+       end
+       input = img_tar:view(1, 3, h, w)
+       local fg, bg = trimap:gt(0.7), trimap:lt(0.3) 
+       trimap:fill(1)
+       trimap[fg] = 2
+       trimap[bg] = 0
+       trimap = image.scale(trimap, w, h, 'simple')
+       input = img_tar.new():resize(1, 4, h, w)
+       input[{{1}, {1,3}}] = img_tar
+       input[{{1}, {4}}] = trimap
+   else
+       input = img_tar:view(1, 3, h, w)
+   end
+   local data = {input = input, tar = img_tar, bg = img_ref}
+   if opt.in_trimap then
+       data.trimap = trimap
+   end
+   return data
 end
 
 function runImage(c_net, r_net, img_path, idx)
@@ -56,9 +85,12 @@ function runImage(c_net, r_net, img_path, idx)
     results.fcolor = flow_utils.flowToColor(results.flow)
     results.mask   = eval_utils.getMask(c_mask):float():squeeze()
     results.rho    = output[2]:float():squeeze()
-    results.input  = data.input:float():squeeze()
+    results.input  = data.tar:float():squeeze()
     if data.bg then -- If have background image
         results.bg = data.bg:float():squeeze()
+    end
+    if data.trimap then
+        results.trimap = data.trimap:float():squeeze() / 2.0
     end
 
     local img_dir  = string.format('%d_%s', idx, str_utils.splitext(paths.basename(img_path[1])))

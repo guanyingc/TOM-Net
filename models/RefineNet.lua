@@ -90,6 +90,11 @@ local function createModel(opt)
     local state_num = opt.channel_sz
     local k         = opt.filter_sz
     local c_in      = 8
+    if opt.in_trimap then
+        c_in = c_in + 1
+    elseif opt.in_bg then
+        c_in = c_in + 3
+    end
     local in_img    = -nn.Identity() 
     local in_flow   = -nn.Identity();
     local in_mask   = -nn.Identity();

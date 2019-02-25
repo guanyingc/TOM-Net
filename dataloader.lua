@@ -53,6 +53,7 @@ function DataLoader:__init(dataset, opt, split)
    self.threads = threads
    self.__size = sizes[1][1]
    self.batchSize = math.floor(opt.batchSize)
+   self.in_trimap = opt.in_trimap
    self.split = split
 end
 
@@ -68,6 +69,7 @@ function DataLoader:run(split, maxNumber)
    local split = split or 'train'
 
    local threads = self.threads
+   local in_trimap = self.in_trimap
    local fullSize, batchSize = self.__size, self.batchSize
    local size = (maxNumber ~= nil and maxNumber > 0) and math.min(maxNumber, fullSize) or fullSize
    local perm = (split == 'val') and torch.range(1, size) or torch.randperm(size)
@@ -80,7 +82,7 @@ function DataLoader:run(split, maxNumber)
          threads:addjob(
             function(indices)
                local sz = indices:size(1)
-               local batch, masks, rhos, flows, imageSize
+               local batch, masks, rhos, flows, trimaps, imageSize
                for i, idx in ipairs(indices:totable()) do
                   local sample = _G.dataset:get(idx)
                   local input = sample.input
@@ -90,11 +92,17 @@ function DataLoader:run(split, maxNumber)
                      masks = torch.FloatTensor(sz, input:size()[2], input:size()[3])
                      rhos  = torch.FloatTensor(sz, input:size()[2], input:size()[3])
                      flows = torch.FloatTensor(sz, 3, input:size()[2], input:size()[3])
+                     if in_trimap then
+                        trimaps = torch.FloatTensor(sz, input:size()[2], input:size()[3])
+                     end
                   end
                   batch[i]:copy(input)
                   masks[i]:copy(sample.mask)
                   rhos[i]:copy(sample.rho)
                   flows[i]:copy(sample.flow)
+                  if in_trimap then
+                      trimaps[i]:copy(sample.trimap)
+                  end
                end
                collectgarbage()
                local batch_sample = {
@@ -103,6 +111,9 @@ function DataLoader:run(split, maxNumber)
                   rhos  = rhos,
                   flows = flows
                }
+               if in_trimap then
+                  batch_sample.trimaps = trimaps
+               end
                return batch_sample
             end,
             function(_sample_)

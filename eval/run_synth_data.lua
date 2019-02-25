@@ -20,6 +20,7 @@ cmd:option('-r_net', 'data/TOM-Net_model/RefineNet.t7', 'RefineNet')
 
 -- Input Options
 cmd:option('-input_root', 'data/datasets/TOM-Net_Synth_Val_900/')
+cmd:option('-in_bg',       false,               'Takes background image as input')
 cmd:option('-img_dir',    'Images',     'synthetic data')
 cmd:option('-img_list',   'glass.txt',  '')
 cmd:option('-max_img_num',  -1,         'Larger than 0 to enable this option')
@@ -45,8 +46,8 @@ end
 
 function check_quant_res(data, pred)
     local errors = {}
-    errors.I_MSE   = eval_utils.calMSE(data.input, pred.in_rec)
-    errors.I_MSE_B = eval_utils.calMSE(data.input, data.bg)
+    errors.I_MSE   = eval_utils.calMSE(data.tar, pred.in_rec)
+    errors.I_MSE_B = eval_utils.calMSE(data.tar, data.bg)
 
     errors.M_IoU   = eval_utils.calIoUMask(data.mask:squeeze(), pred.mask:squeeze()[1])
     errors.M_IoU_B = eval_utils.calIoUMask(data.mask:squeeze(), false)
@@ -63,7 +64,8 @@ function check_quant_res(data, pred)
 end
 
 function runImage(c_net, r_net, warp_module, img_path, idx)
-    local param  = {img_path=img_path, img_dir=opt.img_dir, h=opt.h, w=opt.w, cuda=true}
+    local param  = {img_path=img_path, img_dir=opt.img_dir, h=opt.h, w=opt.w, cuda=true,
+                   in_bg = opt.in_bg}
     local data   = eval_utils.getInputData(param)
     local coarse = c_net:forward(data.input)
     coarse = coarse[#coarse] 
@@ -80,7 +82,7 @@ function runImage(c_net, r_net, warp_module, img_path, idx)
     results.flow   = r_flow:squeeze()
     results.mask   = c_mask:squeeze()
     results.rho    = r_rho:squeeze()
-    results.input  = data.input:squeeze()
+    results.input  = data.tar:squeeze()
     results.in_rec = pred_img:squeeze()
     results.bg     = data.bg:squeeze()
 

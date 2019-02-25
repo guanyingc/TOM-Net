@@ -52,6 +52,11 @@ local function createModel(opt)
     local decoderB = model_utils.decoderB
 
     local c_in = 3
+    if opt.in_trimap then
+        c_in = c_in + 1
+    elseif opt.in_bg then
+        c_in = c_in + 3
+    end
     local c_0 = 16;  local c_1 = 16;  local c_2 = 32;  local c_3 = 64;   
     local c_4 = 128; local c_5 = 256; local c_6 = 256; local c_7 = 256;
 

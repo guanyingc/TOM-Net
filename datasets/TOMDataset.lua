@@ -132,6 +132,9 @@ function TOMDataset:get(i)
            final = torch.cmul(mask_roi3, blur_img) + torch.cmul((1- mask_roi3),image_tar)
        end
        flow[3][dark] = 0
+       if self.opt.in_bg then --Stereo version 
+           image_ref = self:preprocess_single()(image_ref)
+       end
 
        images = torch.cat(image_ref, final, 1)
        local noise = torch.rand(image_ref:size()):repeatTensor(2,1,1)
@@ -180,8 +183,102 @@ function TOMDataset:get(i)
       rho  = rho,
       flow = flow
    }
+
+   if self.opt.in_trimap then
+       local choice = torch.uniform(0, 1)
+       if choice < 0.3 then
+           sample.trimap = self:_generateTrimapMixed(mask, crop_h, crop_w)
+       elseif choice < 0.7 then
+           sample.trimap = self:_generateTrimapTransform(mask, crop_h, crop_w)
+       else
+           sample.trimap = self:_generateTrimapErosion(mask, crop_h, crop_w)
+       end 
+   end
    collectgarbage()
    return sample
+end
+function TOMDataset:_generateTrimapMixed(mask, crop_h, crop_w)
+   local trimap
+   local index = torch.nonzero(mask[1])
+   if index:nDimension() == 0 then -- no object
+       trimap = mask[1]:clone():fill(0)
+   else
+       local rows = index:narrow(2, 1, 1)
+       local cols = index:narrow(2, 2, 1)
+       local t, b, l, r = rows:min(), rows:max(), cols:min(), cols:max()
+
+       local i = torch.random(1, #self.img_info)
+       local path_tar  = self.img_info[i]
+       local path_base = str_utils.splitext(path_tar)
+       local path_mask = path_base .. '_mask.png'
+       local mask2
+       mask2 = self:_loadImage(paths.concat(self.dir, path_mask), 1):float():div(255)
+       mask2 = mask2[1]
+       local index2 = torch.nonzero(mask2)
+       if index2:nDimension() == 0 then -- no object
+           local trimap = mask[1]:clone():fill(0)
+           return trimap
+       end
+       local rows2, cols2 = index2:narrow(2, 1, 1), index2:narrow(2, 2, 1)
+       local t2, b2, l2, r2 = rows2:min(), rows2:max(), cols2:min(), cols2:max()
+       mask2 = image.scale(mask2[{{t2, b2}, {l2, r2}}], r - l + 1, b - t + 1, 'simple')
+       local fg = mask[1]:clone():fill(0)
+       fg[{{t,b}, {l,r}}] = mask2
+       local fg = (mask[1] + fg):gt(1.5):float()
+
+       local k_e = torch.random(2, 30)
+       fg = image.erode(fg, torch.ones(k_e, k_e):float()):float()
+
+       local unknown = fg:clone():fill(0)
+       unknown[{{t,b}, {l,r}}] = 1
+       trimap = fg + unknown
+   end
+   return trimap
+end
+
+function TOMDataset:_generateTrimapTransform(mask, crop_h, crop_w)
+   local trimap
+   local index = torch.nonzero(mask[1])
+   if index:nDimension() == 0 then -- no object
+       trimap = mask[1]:clone():fill(0)
+   else
+       local rows = index:narrow(2, 1, 1)
+       local cols = index:narrow(2, 2, 1)
+       local t, b, l, r = rows:min(), rows:max(), cols:min(), cols:max()
+
+       local ang = torch.uniform(0, 2) * 1.2 - 1.2 
+       local m_transform = image.rotate(mask[1], ang)  -- translate, rotate
+       local x, y = torch.random(0, 20), torch.random(0, 20)
+       m_transform = image.translate(m_transform, x, y)
+       local fg = (mask[1] + m_transform):gt(1.5):float()
+
+       local k_e = torch.random(2, 30)
+       fg = image.erode(fg, torch.ones(k_e, k_e):float()):float()
+
+       local unknown = fg:clone():fill(0)
+       unknown[{{t,b}, {l,r}}] = 1
+       trimap = fg + unknown
+   end
+   return trimap
+end
+
+function TOMDataset:_generateTrimapErosion(mask, crop_h, crop_w)
+   local trimap
+   local index = torch.nonzero(mask[1])
+   if index:nDimension() == 0 then -- no object
+       trimap = mask[1]:clone():fill(0)
+   else
+       local rows = index:narrow(2, 1, 1)
+       local cols = index:narrow(2, 2, 1)
+       local t, b, l, r = rows:min(), rows:max(), cols:min(), cols:max()
+
+       local k_e = torch.random(2, 30)
+       local fg = image.erode(mask[1], torch.ones(k_e, k_e):float()):float()
+       local unknown = fg:clone():fill(0)
+       unknown[{{t,b}, {l,r}}] = 1
+       trimap = fg + unknown
+   end
+   return trimap
 end
 
 function TOMDataset:_loadImage(path, channels)
@@ -208,6 +305,20 @@ end
 
 function TOMDataset:size()
    return #self.img_info
+end
+
+function TOMDataset:preprocess_single()
+   local randTransform = torch.rand(1)
+   randTransform[1]= 1
+   if randTransform[1] > 0.5 and (self.split == 'train' or self.split=='val')then 
+      return t.Compose{
+          t.ColorJitterSingle({
+             brightness = 0.2,
+             contrast = 0.2,
+             saturation = 0.2,
+          })
+      }
+  end
 end
 
 function TOMDataset:preprocess()

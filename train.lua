@@ -246,7 +246,11 @@ function Trainer:getFirstRow(split, id)
     table.insert(first, self.ref_imgs[id])
     table.insert(first, self.tar_imgs[id])
     table.insert(first, false)
-    table.insert(first, false)
+    if self.opt.in_trimap then
+        table.insert(first, self.trimaps[id] / 2.0)
+    else
+        table.insert(first, false)
+    end
     table.insert(first, self.masks[id] - 1) 
     table.insert(first, self.rhos[id])
     return first
@@ -465,7 +469,14 @@ function Trainer:copyInputData(sample)
     if not self.opt.refine then
         self:copyInputsMultiScale(sample)
     end
-    local network_input = self.tar_imgs
+    if self.opt.in_trimap then
+        network_input = torch.cat(self.tar_imgs, self.trimaps, 2)
+    elseif self.opt.in_bg then 
+        network_input = torch.cat(self.ref_imgs, self.tar_imgs, 2)
+    else
+        network_input = self.tar_imgs
+    end
+    --local network_input = self.tar_imgs
     return network_input
 end
 
@@ -485,6 +496,10 @@ function Trainer:copyInputs(sample)
    self.masks:resize(n, h, w):copy(sample.masks)
    self.rhos:resize( n, h, w):copy(sample.rhos)
    self.flows:resize(n, 3, h, w):copy(sample.flows)
+   if self.opt.in_trimap then
+       self.trimaps = self.trimaps or torch.CudaTensor()
+       self.trimaps:resize(n, 1, h, w):copy(sample.trimaps)
+   end
 end
 
 function Trainer:copyInputsMultiScale(sample)

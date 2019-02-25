@@ -40,6 +40,8 @@ function M.parse(arg)
     cmd:option('-filter_sz',        3,         'Network: kernel size')
     cmd:option('-down_num',         3,         'Network: downsample factor')
     cmd:option('-ms_num',           4,         'Network: scales level for CoarseNet')
+    cmd:option('-in_bg',          false,       'Network: takes background as input')
+    cmd:option('-in_trimap',      false,       'Network: takes trimap as input')
     ----------- Checkpoint options ---------------
     cmd:option('-resume',         'none',      'Checkpoint: Reload checkpoint and state')
     cmd:option('-retrain',        'none',      'Checkpoint: Reload checkpoint only')
@@ -87,6 +89,8 @@ function M.getSaveDirName(opt)
         dName = dName .. string.format('_%s-%f', v, opt.lr)
     end
 
+    dName = dName .. (opt.in_trimap and '_Trimap' or '_')
+    dName = dName .. (opt.in_bg and '_InBg' or '_')
     dName = dName .. (opt.retrain ~= 'none' and '_retrain' or '')
     dName = dName .. (opt.resume  ~= 'none' and '_resume' or '')
     dName = dName .. (opt.valOnly   and '_valOnly'   or '')
