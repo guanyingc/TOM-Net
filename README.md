@@ -114,6 +114,31 @@ CUDA_VISIBLE_DEVICES=$gpu th refine/main_refine.lua -train_list train_all_178k.t
 ## Synthetic Data Rendering
 Please refer to [TOM-Net_Rendering](https://github.com/guanyingc/TOM-Net_Rendering) for sample rendering codes.
 
+## IJCV Extension
+
+### TOM-Net + Trimap
+```
+# Testing
+CUDA_VISIBLE_DEVICES=3 th eval/run_model.lua -input_root images/Trimap_demo -img_list img_trimap_list.txt -c_net data/Release_Trimap_model_Feb23_2019/CoarseNet_Trimap_19.t7 -r_net data/Release_Trimap_model_Feb23_2019/RefineNet_Trimap_10.t7 -in_trimap 
+
+# Training CoarseNet
+CUDA_VISIBLE_DEVICES=3 th main.lua -data_dir ~/TOM-Net_Synth_Train_178k/ -train_list train_all_178k.txt -in_trimap -nEpochs 20
+# Training RefineNet
+CUDA_VISIBLE_DEVICES=2 th refine/main_refine.lua -coarse_net data/training/Feb-23__CoarseNet_scale_h-512_crop_h-448_flow_w-0.010_mask_w-0.100_rho_w-1.000_img_w-1.000_lr-0.000100_Trimap_/checkpointdir/checkpoint20.t7 -data_dir ~/TOM-Net_Synth_Train_178k/ -train_list train_all_178k.txt -in_trimap -nEpochs 10
+```
+
+### TOM-Net + Background
+```
+# Testing on real data
+CUDA_VISIBLE_DEVICES=3 th eval/run_model.lua -input_root ../TOM-Net_Train/data/datasets/TOM-Net_Real_Test_876 -c_net data/Release_Stereo_model_Jan23_2019/CoarseNet_with_bg_19.t7 -r_net data/Release_Stereo_model_Jan23_2019/RefineNet_with_bg_11.t7 -in_bg 
+# Testing on synthetic data
+CUDA_VISIBLE_DEVICES=3 th eval/run_synth_data.lua -input_root ../TOM-Net_Train/data/datasets/TOM-Net_Synth_Val_900/ -c_net data/Release_Stereo_model_Jan23_2019/CoarseNet_with_bg_19.t7 -r_net data/Release_Stereo_model_Jan23_2019/RefineNet_with_bg_11.t7 -in_bg
+
+# Training CoarseNet
+CUDA_VISIBLE_DEVICES=3 th main.lua -data_dir ~/TOM-Net_Synth_Train_178k/ -train_list train_all_178k.txt -in_bg -nEpochs 20
+# Training RefineNet
+CUDA_VISIBLE_DEVICES=2 th refine/main_refine.lua -coarse_net data/training/Feb-23__CoarseNet_scale_h-512_crop_h-448_flow_w-0.010_mask_w-0.100_rho_w-1.000_img_w-1.000_lr-0.000100_Trimap_/checkpointdir/checkpoint20.t7 -data_dir ~/TOM-Net_Synth_Train_178k/ -train_list train_all_178k.txt -in_bg -nEpochs 10
+```
 ## Citation
 If you find this code or the provided data useful in your research, please consider cite: 
 
