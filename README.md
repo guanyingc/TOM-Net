@@ -36,6 +36,7 @@ We provide:
 - Evaluation code on both the validation and testing data
 - Instructions to train the model 
 - Example code for synthetic data rendering
+- <b>Code and models used in the journal extension (New!)</b>
 
 ## Testing
 #### Download Pretrained Model
@@ -114,8 +115,26 @@ CUDA_VISIBLE_DEVICES=$gpu th refine/main_refine.lua -train_list train_all_178k.t
 ## Synthetic Data Rendering
 Please refer to [TOM-Net_Rendering](https://github.com/guanyingc/TOM-Net_Rendering) for sample rendering codes.
 
+## Codes and Models Used in the Journal Extension (IJCV)
+#### Test TOM-Net<sup>+Bg</sup> and TOM-Net<sup>+Trimap</sup> on Sample Images
+```shell
+# Download pretrained models
+sh scritps/download_pretrained_models_IJCV.sh
+
+# Test TOM-Net+Bg on sample images
+CUDA_VISIBLE_DEVICES=${gpu} th eval/run_model.lua -input_root images/TOM-Net_with_Trimap_Bg_Samples/ -img_list img_bg_trimap_list.txt -in_bg -c_net data/TOM-Net_plus_Bg_Model/CoarseNet_plus_Bg.t7 -r_net data/TOM-Net_plus_Bg_Model/RefineNet_plus_Bg.t7 
+# You can find the results in data/TOM-Net_plus_Bg_Model/*
+
+# Test TOM-Net+Trimap on sample images
+CUDA_VISIBLE_DEVICES=${gpu} th eval/run_model.lua -input_root images/TOM-Net_with_Trimap_Bg_Samples/ -img_list img_bg_trimap_list.txt -in_trimap -c_net data/TOM-Net_plus_Trimap_Model/CoarseNet_plus_Trimap.t7 -r_net data/TOM-Net_plus_Trimap_Model/RefineNet_plus_Trimap.t7 
+# You can find the results in data/TOM-Net_plus_Trimap_Model/*
+```
+
+#### Train TOM-Net<sup>+Bg</sup> and TOM-Net<sup>+Trimap</sup> 
+To train a new TOM-Net<sup>+Bg</sup> or TOM-Net<sup>+Trimap</sup> model, please follow the same procedures as training TOM-Net, except that you need to append `-in_bg` or `-in_trimap` at the end of the commands.
+
 ## Citation
-If you find this code or the provided data useful in your research, please consider cite: 
+If you find this code or the provided data useful in your research, please consider cite the following relevant paper(s): 
 
 ```
 @inproceedings{chen2018tomnet,
@@ -123,6 +142,13 @@ If you find this code or the provided data useful in your research, please consi
   author={Chen, Guanying and Han, Kai and Wong, Kwan-Yee K.},
   booktitle={CVPR},
   year={2018}
+}
+
+@inproceedings{chen2019LTOM,
+  title={Learning Transparent Object Matting},
+  author={Chen, Guanying and Han, Kai and Wong, Kwan-Yee K.},
+  booktitle={IJCV},
+  year={2019}
 }
 ```
 
