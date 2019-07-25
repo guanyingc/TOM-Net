@@ -2,236 +2,246 @@
 <script type="text/javascript">google.load("jquery", "1.3.2");</script>
 
 <style type="text/css">
-	body {
-		font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
-		font-weight:300;
-		font-size:18px;
-		margin-left: auto;
-		margin-right: auto;
-		width: 1000px;
-	}	
-	h1 {
-		font-weight:300;
-	}
-	
-	.disclaimerbox {
-		background-color: #eee;		
-		border: 1px solid #eeeeee;
-		border-radius: 10px ;
-		-moz-border-radius: 10px ;
-		-webkit-border-radius: 10px ;
-		padding: 20px;
-	}
+body {
+    font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
+    font-weight:300;
+    font-size:18px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 1000px;
+}	
+h1 {
+    font-weight:300;
+}
 
-	video.header-vid {
-		height: 140px;
-		border: 1px solid black;
-		border-radius: 10px ;
-		-moz-border-radius: 10px ;
-		-webkit-border-radius: 10px ;
-	}
-	
-	img.header-img {
-		height: 140px;
-		border: 1px solid black;
-		border-radius: 10px ;
-		-moz-border-radius: 10px ;
-		-webkit-border-radius: 10px ;
-	}
-	
-	img.rounded {
-		border: 0px solid #eeeeee;
-		border-radius: 10px ;
-		-moz-border-radius: 10px ;
-		-webkit-border-radius: 10px ;
-	}
-	
-	a:link,a:visited
-	{
-		color: #1367a7;
-		text-decoration: none;
-	}
-	a:hover {
-		color: #208799;
-	}
-	
-	td.dl-link {
-		height: 160px;
-		text-align: center;
-		font-size: 22px;
-	}
-	
-	.vert-cent {
-		position: relative;
-	    top: 50%;
-	    transform: translateY(-50%);
-	}
-	
-	hr
-	{
-		border: 0;
-		height: 1px;
-		background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));
-	}
+.disclaimerbox {
+    background-color: #eee;		
+    border: 1px solid #eeeeee;
+    border-radius: 10px ;
+    -moz-border-radius: 10px ;
+    -webkit-border-radius: 10px ;
+    padding: 20px;
+}
+
+video.header-vid {
+    height: 140px;
+    border: 1px solid black;
+    border-radius: 10px ;
+    -moz-border-radius: 10px ;
+    -webkit-border-radius: 10px ;
+}
+
+img.header-img {
+    height: 140px;
+    border: 1px solid black;
+    border-radius: 10px ;
+    -moz-border-radius: 10px ;
+    -webkit-border-radius: 10px ;
+}
+
+img.rounded {
+    border: 0px solid #eeeeee;
+    border-radius: 10px ;
+    -moz-border-radius: 10px ;
+    -webkit-border-radius: 10px ;
+}
+
+a:link,a:visited
+{
+    color: #1367a7;
+    text-decoration: none;
+}
+a:hover {
+    color: #208799;
+  }
+
+  td.dl-link {
+      height: 160px;
+      text-align: center;
+      font-size: 22px;
+  }
+
+  .vert-cent {
+      position: relative;
+      top: 50%;
+      transform: translateY(-50%);
+  }
+
+  hr
+  {
+      border: 0;
+      height: 1px;
+      background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));
+  }
 </style>
 
 <html>
-  <head>
-		<title>TOM-Net: Learning Transparent Object Matting from a Single Image</title>
-		<meta property="og:image" content="https://github.com/guanyingc/TOM-Net/blob/gh-pages/files/cvpr2018_tom-net.jpg"/>
-		<meta property="og:title" content="TOM-Net: Learning Transparent Object Matting from a Single Image. In CVPR, 2018." />
-  </head>
+<head>
+<title>TOM-Net: Learning Transparent Object Matting from a Single Image</title>
+<meta property="og:image" content="https://github.com/guanyingc/TOM-Net/blob/gh-pages/files/cvpr2018_tom-net.jpg"/>
+<meta property="og:title" content="TOM-Net: Learning Transparent Object Matting from a Single Image. In CVPR, 2018." />
+</head>
 
-  <body>
-    <br>
-          <center>
-          	<span style="font-size:42px">TOM-Net: Learning Transparent Object Matting from a Single Image</span><br>
-	  		  <table align=center width=800px>
-	  			  <tr>
-	  	              <td align=center width=100px>
-	  					<center>
-	  						<span style="font-size:24px"><a href="http://www.gychen.org">Guanying Chen*</a></span>
-		  		  		</center>
-		  		  	  </td>
-	  	              <td align=center width=100px>
-	  					<center>
-	  						<span style="font-size:24px"><a href="http://www.hankai.org/">Kai Han*</a></span>
-		  		  		</center>
-		  		  	  </td>
-	  	              <td align=center width=100px>
-	  					<center>
-	  						<span style="font-size:24px"><a href="http://i.cs.hku.hk/~kykwong/">Kwan-Yee K. Wong</a></span>
-		  		  		</center>
-		  		  	  </td>
-			  </table>
-          	<span style="font-size:22px">Department of Computer Science, The University of Hong Kong</span>
-
-	  		  <table align=center width=900px>
-	  			  <tr>
-	  	              <td align=center width=300px>
-	  					<center>
-	  						<span style="font-size:22px"><a href='https://github.com/guanyingc/TOM-Net'> Code [Torch]</a></span>
-		  		  		</center>
-		  		  	  </td>
-	  	              <td align=center width=300px>
-	  					<center>
-	  						<span style="font-size:22px"><a href='http://www.visionlab.cs.hku.hk/publications/tom-net_cvpr18.pdf'> Paper [CVPR 2018 Spotlight]</a></span>
-		  		  		</center>
-		  		  	  </td>
-	  	              <td align=center width=300px>
-	  					<center>
-	  						<span style="font-size:22px"><a href='https://github.com/guanyingc/TOM-Net_Poster_LaTex/blob/master/poster_landscape.pdf'> Poster [GitHub]</a></span>
-		  		  		</center>
-		  		  	  </td>
-			  </table>
-          </center>
-  		  <br>
-
-  		  <table align=center width=800px>
-  			  <tr>
-  	              <td width=400px>
-  					<center>
-  	                	<img class="rounded" src = "./files/cvpr2018_tom-net.jpg" height="300px"></img>
-  	                	<br>
-					</center>
-  	              </td>
-                </tr>
-  		  </table>
-
-  		  <br>
-		  <hr>
-
-  		  <table align=center width=900px>
-	  		  <center><h1>Abstract</h1></center>
-              <p>This paper addresses the problem of transparent object matting. Existing image matting approaches for transparent objects often require tedious capturing procedures and long processing time, which limit their practical use. In this paper, we first formulate transparent object matting as a refractive flow estimation problem. We then propose a deep learning framework, called TOM-Net, for learning the refractive flow. Our framework comprises two parts, namely a multi-scale encoder-decoder network for producing a coarse prediction, and a residual network for refinement. At test time, TOM-Net takes a single image as input, and outputs a matte (consisting of an object mask, an attenuation mask and a refractive flow field) in a fast feed-forward pass. As no off-the-shelf dataset is available for transparent object matting, we create a large-scale synthetic dataset consisting of 158K images of transparent objects rendered in front of images sampled from the Microsoft COCO dataset. We also collect a real dataset consisting of 876 samples using 14 transparent objects and 60 background images. Promising experimental results have been achieved on both synthetic and real data, which clearly demonstrate the effectiveness of our approach.</p>
-		  <hr>
-
-        <table align=center width=900px>
-            <center><h1>Video</h1></center>
-            <center><iframe width="800" height="450" src="https://www.youtube.com/embed/vvCbQvjZHsk" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe></center>
-        </table>
-        <hr>
-
- 		<center><h1>Method</h1></center>
-  		  <table align=center width=900px>
-	  		<br>
-  			  <tr>
-  	              <td align=center width=900px>
-                      <img class="round" style="width:900px" src="./files/framework.jpg"/></a>
-				  </td>
-			  </tr>
- 		</table>
-		  <hr>
-
- 		<center><h1>Qualitative Results</h1></center>
-        Qualitative Results on synthetic dataset.
-  		<table align=center width=800px>
-               <td align=center width=800px>
-                  <img class="round" style="width:800px" src="./files/synthetic_qual_result.jpg"/></a>
-               </td>
-		  </table>
-
-      	  <br>
-        Qualitative Results on real dataset.
-  		<table align=center width=800px>
-              <td align=center width=800px>
-                <img class="round" style="width:800px" src="./files/real_qual_results.jpg"/></a>
-               </td>
-		  </table>
-		<br>
-        <hr>
-
- 		<center><h1>Code and Dataset</h1></center>
-        We make our code, trained model and data publicly available.
-          <br>
-  		  <table align=center width=700px>
-  			  <tr>
-                <td align=center width=700px>
+<body>
+<br>
+<center>
+    <span style="font-size:42px">TOM-Net: Learning Transparent Object Matting from a Single Image</span><br>
+    <table align=center width=800px>
+        <tr>
+            <td align=center width=100px>
                 <center>
-                      <a href=''><img class="round" style="width:700px" src="./files/real_data.jpg"/></a>
+                    <span style="font-size:24px"><a href="http://www.gychen.org">Guanying Chen*</a></span>
                 </center>
-                </td>
-			  </tr>
-		  </table>
+            </td>
+            <td align=center width=100px>
+                <center>
+                    <span style="font-size:24px"><a href="http://www.hankai.org/">Kai Han*</a></span>
+                </center>
+            </td>
+            <td align=center width=100px>
+                <center>
+                    <span style="font-size:24px"><a href="http://i.cs.hku.hk/~kykwong/">Kwan-Yee K. Wong</a></span>
+                </center>
+            </td>
+        </tr>
+    </table>
 
-  		  <table align=center width=800px>
-			  <tr><center>
+    <span style="font-size:22px">Department of Computer Science, The University of Hong Kong</span>
+    <br>
+    <br>
+
+    <table align=center width=900px>
+        <tr>
+            <td align=center width=300px>
+                <span style="font-size:22px"><a href='https://github.com/guanyingc/TOM-Net'> Code [Torch]</a></span> &emsp;&emsp;
+                <span style="font-size:22px"><a href='http://www.visionlab.cs.hku.hk/publications/tom-net_cvpr18.pdf'> Paper [CVPR 2018 Spotlight]</a></span> &emsp;&emsp;
+                <span style="font-size:22px"><a href='http://www.visionlab.cs.hku.hk/publications/tom-net_ijcv19.pdf'> Journal Extension [IJCV]</a></span>
+                <br>
+                <span style="font-size:22px"><a href='http://www.visionlab.cs.hku.hk/publications/tom-net_ijcv19_supp.pdf'> Supplementary [PDF] </a></span> &emsp;&emsp;
+                <span style="font-size:22px"><a href='https://github.com/guanyingc/TOM-Net_Poster_LaTex/blob/master/poster_landscape.pdf'> Poster [LaTex]</a></span>
+            </td>
+        </tr>
+    </table>
+</center>
+<br>
+
+<table align=center width=800px>
+    <tr>
+        <td width=400px>
+            <center>
+                <img class="rounded" src = "./files/cvpr2018_tom-net.jpg" height="300px"></img>
+                <br>
+            </center>
+        </td>
+    </tr>
+</table>
+
+<br>
+<hr>
+
+<table align=center width=900px>
+    <center><h1>Abstract</h1></center>
+    <p>This paper addresses the problem of transparent object matting. Existing image matting approaches for transparent objects often require tedious capturing procedures and long processing time, which limit their practical use. In this paper, we first formulate transparent object matting as a refractive flow estimation problem. We then propose a deep learning framework, called TOM-Net, for learning the refractive flow. Our framework comprises two parts, namely a multi-scale encoder-decoder network for producing a coarse prediction, and a residual network for refinement. At test time, TOM-Net takes a single image as input, and outputs a matte (consisting of an object mask, an attenuation mask and a refractive flow field) in a fast feed-forward pass. As no off-the-shelf dataset is available for transparent object matting, we create a large-scale synthetic dataset consisting of 158K images of transparent objects rendered in front of images sampled from the Microsoft COCO dataset. We also collect a real dataset consisting of 876 samples using 14 transparent objects and 60 background images. Promising experimental results have been achieved on both synthetic and real data, which clearly demonstrate the effectiveness of our approach.</p>
+</table>
+<hr>
+
+<table align=center width=900px>
+    <center><h1>Video</h1></center>
+    <center><iframe width="800" height="450" src="https://www.youtube.com/embed/vvCbQvjZHsk" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe></center>
+</table>
+<hr>
+
+<table align=center width=900px>
+    <center><h1>Method</h1></center>
+    <tr>
+        <td align=center width=900px>
+            <img class="round" style="width:900px" src="./files/framework.jpg"/></img>
+        </td>
+    </tr>
+</table>
+<hr>
+
+<table align=center width=800px>
+    <center><h1>Qualitative Results</h1></center>
+    <center><h3>Results on synthetic dataset.</h3></center>
+    
+    <td align=center width=800px>
+        <img class="round" style="width:800px" src="./files/synthetic_qual_result.jpg"/></img>
+    </td>
+</table>
+
+<table align=center width=800px>
+    <center><h3>Results on real dataset.</h3></center>
+    <td align=center width=800px>
+        <img class="round" style="width:800px" src="./files/real_qual_results.jpg"/></img>
+    </td>
+</table>
+<br>
+<hr>
+
+<!--
+<br>
+<table align=center width=700px>
+    <tr>
+        <td align=center width=700px>
+            <center>
+                <a href=''><img class="round" style="width:700px" src="./files/real_data.jpg"/></a>
+            </center>
+        </td>
+    </tr>
+</table>
+-->
+
+<table align=center>
+    <center><h1>Journal Extension (IJCV) </h1></center>
+    <tr>
+        <td align=center width=900px>
+            <img class="round" style="width:800px" src="./files/ECCV2018_framework.png"/></img>
+        </td>
+    </tr>
+</table>
+<hr>
+
+<table align=center width=800px>
+    <center><h1>Code and Dataset</h1></center>
+    <center>We make our code, trained model, and dataset publicly available.</center>
+    <tr>
+        <center>
+            <td align=center width=100px>
+                <center>
+                    <span style="font-size:20px"><a href='https://github.com/guanyingc/TOM-Net'>[Code & Model]</span>
+                    </center>
+                </td>
                 <td align=center width=100px>
-	                <center>
-                    <span style="font-size:20px"><a href='https://github.com/guanyingc/TOM-Net'>[Code & Model]</a> 
-	                </center>
+                    <center>
+                        <span style="font-size:20px"><a href='http://www.visionlab.cs.hku.hk/data/TOM-Net/'>[Datasets]</a></span>
+                    </center>
                 </td>
                 <td align=center width=100px>
-	  			    <center>
-                    <span style="font-size:20px"><a href='http://www.visionlab.cs.hku.hk/data/TOM-Net/'>[Datasets]</a>
-	  			    </center>
+                    <center>
+                        <span style="font-size:20px"><a href='https://github.com/guanyingc/TOM-Net_Rendering'>[Rendering Code]</a></span>
+                    </center>
                 </td>
-                <td align=center width=100px>
-	  			    <center>
-                    <span style="font-size:20px"><a href='https://github.com/guanyingc/TOM-Net_Rendering'>[Rendering Code]</a> 
-	  			    </center>
-                </td>
-			    <br>
-			  </center></tr>
-		  </table>
+                 <br>
+            </center>
+        </td>
+    </tr>
+</table>
+<hr>
 
+<table align=center width=1000px>
+    <tr>
+        <td width=400px>
+            <left>
+            <center><h1>Acknowledgments</h1></center>
+            This project is supported by a grant from the Research Grant Council of the Hong Kong (SAR), China, under the project HKU 718113E. We gratefully acknowledge the support of NVIDIA Corporation with the donation of the Titan X Pascal GPU used for this research. We thank Yiming Qian for help with the synthetic data rendering.
+            </left>
+        </td>
+    </tr>
+</table>
 
-  		  <br>
-		  <hr>
-		  	
-  		  <table align=center width=1000px>
-  			  <tr>
-  	              <td width=400px>
-  					<left>
-	  		  <center><h1>Acknowledgments</h1></center>
-              This project is supported by a grant from the Research Grant Council of the Hong Kong (SAR), China, under the project HKU 718113E. We gratefully acknowledge the support of NVIDIA Corporation with the donation of the Titan X Pascal GPU used for this research. We thank Yiming Qian for help with the synthetic data rendering.
-			</left>
-		</td>
-			 </tr>
-		</table>
+<br><br>
 
-		<br><br>
-          
 </body>
 </html>
- 
+
