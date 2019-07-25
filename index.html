@@ -117,7 +117,7 @@ a:hover {
                 <span style="font-size:22px"><a href='http://www.visionlab.cs.hku.hk/publications/tom-net_cvpr18.pdf'> Paper [CVPR 2018 Spotlight]</a></span> &emsp;&emsp;
                 <span style="font-size:22px"><a href='http://www.visionlab.cs.hku.hk/publications/tom-net_ijcv19.pdf'> Journal Extension [IJCV]</a></span>
                 <br>
-                <span style="font-size:22px"><a href='http://www.visionlab.cs.hku.hk/publications/tom-net_ijcv19_supp.pdf'> Supplementary [PDF] </a></span> &emsp;&emsp;
+                <span style="font-size:22px"><a href='http://www.visionlab.cs.hku.hk/publications/tom-net_ijcv19_supp.pdf'> Supplementary [PDF] </a></span> &emsp;&emsp;&emsp;&emsp;&emsp;
                 <span style="font-size:22px"><a href='https://github.com/guanyingc/TOM-Net_Poster_LaTex/blob/master/poster_landscape.pdf'> Poster [LaTex]</a></span>
             </td>
         </tr>
@@ -163,20 +163,19 @@ a:hover {
 
 <table align=center width=800px>
     <center><h1>Qualitative Results</h1></center>
-    <center><h3>Results on synthetic dataset.</h3></center>
-    
-    <td align=center width=800px>
-        <img class="round" style="width:800px" src="./files/synthetic_qual_result.jpg"/></img>
-    </td>
+    <center><h3>1. Results on synthetic dataset.</h3></center>
+    <table align=center width=800px>
+        <td align=center width=800px>
+            <img class="round" style="width:800px" src="./files/synthetic_qual_result.png"/></img>
+        </td>
+    </table>
+    <center><h3>2. Results on real dataset.</h3></center>
+    <table align=center width=800px>
+        <td align=center width=800px>
+            <img class="round" style="width:800px" src="./files/real_qual_result.png"/></img>
+        </td>
+    </table>
 </table>
-
-<table align=center width=800px>
-    <center><h3>Results on real dataset.</h3></center>
-    <td align=center width=800px>
-        <img class="round" style="width:800px" src="./files/real_qual_results.jpg"/></img>
-    </td>
-</table>
-<br>
 <hr>
 
 <!--
@@ -194,17 +193,30 @@ a:hover {
 
 <table align=center>
     <center><h1>Journal Extension (IJCV) </h1></center>
-    <tr>
-        <td align=center width=900px>
-            <img class="round" style="width:800px" src="./files/ECCV2018_framework.png"/></img>
-        </td>
-    </tr>
+    <center><h3>1. Comparison between TOM-Net, TOM-Net<sup>+Trimap</sup>, and TOM-Net<sup>+Bg</sup></h3></center>
+
+    <table align=center>
+        <tr>
+            <td align=center width=900px>
+                <img class="round" style="width:800px" src="./files/IJCV_results.png"/></img>
+            </td>
+        </tr>
+    </table>
+
+    <table align=center>
+        <center><h3>2. Limitation of TOM-Net: colored objects and objects under natural illumination</h3></center>
+        <tr>
+            <td align=center width=900px>
+                <img class="round" style="width:800px" src="./files/IJCV_results_2.png"/></img>
+            </td>
+        </tr>
+    </table>
 </table>
 <hr>
 
 <table align=center width=800px>
     <center><h1>Code and Dataset</h1></center>
-    <center>We make our code, trained model, and dataset publicly available.</center>
+    <center><h3>We make our code, trained model, and dataset publicly available.</h3></center>
     <tr>
         <center>
             <td align=center width=100px>
@@ -222,7 +234,7 @@ a:hover {
                         <span style="font-size:20px"><a href='https://github.com/guanyingc/TOM-Net_Rendering'>[Rendering Code]</a></span>
                     </center>
                 </td>
-                 <br>
+                <br>
             </center>
         </td>
     </tr>
