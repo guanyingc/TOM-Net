@@ -41,7 +41,7 @@ We provide:
 ## Testing
 #### Download Pretrained Model
 ```
-sh scritps/download_pretrained_model.sh
+sh scripts/download_pretrained_model.sh
 ```
 
 #### Test on New Images
