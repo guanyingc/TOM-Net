@@ -41,7 +41,7 @@ We provide:
 ## Testing
 #### Download Pretrained Model
 ```
-sh scritps/download_pretrained_model.sh
+sh scripts/download_pretrained_model.sh
 ```
 
 #### Test on New Images
@@ -119,7 +119,7 @@ Please refer to [TOM-Net_Rendering](https://github.com/guanyingc/TOM-Net_Renderi
 #### Test TOM-Net<sup>+Bg</sup> and TOM-Net<sup>+Trimap</sup> on Sample Images
 ```shell
 # Download pretrained models
-sh scritps/download_pretrained_models_IJCV.sh
+sh scripts/download_pretrained_models_IJCV.sh
 
 # Test TOM-Net+Bg on sample images
 CUDA_VISIBLE_DEVICES=${gpu} th eval/run_model.lua -input_root images/TOM-Net_with_Trimap_Bg_Samples/ -img_list img_bg_trimap_list.txt -in_bg -c_net data/TOM-Net_plus_Bg_Model/CoarseNet_plus_Bg.t7 -r_net data/TOM-Net_plus_Bg_Model/RefineNet_plus_Bg.t7 
