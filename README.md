@@ -87,7 +87,7 @@ To train a new TOM-Net model, please follow the following steps:
 sh scripts/download_training_dataset.sh
 ```
 
-- Call `main.lua` to train CoarseNet on simple objects
+- Run `main.lua` to train CoarseNet on simple objects
 ```shell
 CUDA_VISIBLE_DEVICES=$gpu th main.lua -train_list train_simple_98k.txt -nEpochs 13 -prefix 'simple'
 # Please refer to opt.lua for more information about the training options
@@ -95,7 +95,7 @@ CUDA_VISIBLE_DEVICES=$gpu th main.lua -train_list train_simple_98k.txt -nEpochs 
 # You can find log file, checkpoints and visualization results in data/training/simple_*
 ```
 
-- Call `main.lua` to train CoarseNet on both simple and complex objects
+- Run `main.lua` to train CoarseNet on both simple and complex objects
 ```shell
 # Finetune CoarseNet with all of the data
 CUDA_VISIBLE_DEVICES=$gpu th main.lua -train_list train_all_178k.txt -nEpochs 7 -prefix 'all' -retrain data/training/simple_*/checkpointdir/checkpoint13.t7
@@ -103,7 +103,7 @@ CUDA_VISIBLE_DEVICES=$gpu th main.lua -train_list train_all_178k.txt -nEpochs 7 
 # You can find log file, checkpoints and visualization results in data/training/all_*
 ```
 
-- Call `main_refine.lua` to train RefineNet on both simple and complex objects
+- Run `main_refine.lua` to train RefineNet on both simple and complex objects
 ```shell
 CUDA_VISIBLE_DEVICES=$gpu th refine/main_refine.lua -train_list train_all_178k.txt -nEpochs 20 -coarse_net data/training/all_*/checkpointdir/checkpoint7.t7 
 # Train RefineNet with all of the data
