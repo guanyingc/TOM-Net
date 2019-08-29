@@ -5,15 +5,15 @@
 <br>
 (\* equal contribution)
 
-This paper addresses the problem of transparent object matting from a single image:
+This paper addresses the problem of transparent object matting from a single image.
 <br>
 <p align="center">
     <img src='images/cvpr2018_tom-net.jpg' width="600" >
 </p>
 
 
-### Dependencies
-TOM-Net is implemented in [Torch](http://torch.ch/) and tested with Ubuntu 14.04, please install Torch first following the [official document](http://torch.ch/docs/getting-started.html#_). 
+## Dependencies
+TOM-Net is implemented in [Torch](http://torch.ch/) and tested with Ubuntu 14.04. Please install Torch first following the [official document](http://torch.ch/docs/getting-started.html#_). 
 - python 2.7 
 - numpy
 - cv2 
@@ -27,7 +27,7 @@ TOM-Net is implemented in [Torch](http://torch.ch/) and tested with Ubuntu 14.04
     luarocks make
     ```
 
-## Overview:
+## Overview
 We provide:
 
 - Pretrained model
@@ -36,7 +36,7 @@ We provide:
 - Evaluation code on both the validation and testing data
 - Instructions to train the model 
 - Example code for synthetic data rendering
-- <b>Code and models used in the journal extension (New!)</b>
+- Code and models used in the journal extension <b>(New!)</b>
 
 ## Testing
 #### Download Pretrained Model
@@ -80,7 +80,7 @@ CUDA_VISIBLE_DEVICES=${gpu} th eval/run_model.lua -img_list ${class}.txt
 ```
 
 ## Training
-To train a new TOM-Net model, you have to follow the following steps:
+To train a new TOM-Net model, please follow the following steps:
 - Download the training data
 ```shell
 # The size of the zipped training dataset is 40 GB and you need about 207 GB to unzip it.
