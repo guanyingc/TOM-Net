@@ -38,11 +38,14 @@ We provide:
 - Example code for synthetic data rendering
 - Code and models used in the journal extension <b>(New!)</b>
 
+If the automatic downloading scripts are not working, please download the trained models and the introduced dataset from Google Drive ([Models](https://drive.google.com/drive/folders/1J5u5i1iGSt5V9bbL63bp4FrP31bMwCwQ?usp=sharing), [Datasets](https://drive.google.com/open?id=1LNvP5g_U8kO3zBhdKd4ur8mBVunWjNH4)).
+
 ## Testing
 #### Download Pretrained Model
 ```
 sh scripts/download_pretrained_model.sh
 ```
+If the above command is not working, please manually download the trained models from Google Drive ([PS-FCN and UPS-FCN](https://drive.google.com/drive/folders/1VxrPsV8Pg28JCcMZklW1LcBFm4crhK0F?usp=sharing)) and put them in `./data/models/`.
 
 #### Test on New Images
 ```shell
