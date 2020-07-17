@@ -1,7 +1,7 @@
 # TOM-Net
-**[TOM-Net: Learning Transparent Object Matting from a Single Image, CVPR 2018 (Spotlight)](http://gychen.org/TOM-Net/)**,
+**[TOM-Net: Learning Transparent Object Matting from a Single Image, CVPR 2018 (Spotlight)](https://guanyingc.github.io/TOM-Net/)**,
 <br>
-[Guanying Chen](http://www.gychen.org)\*, [Kai Han](http://www.hankai.org/)\*, [Kwan-Yee K. Wong](http://i.cs.hku.hk/~kykwong/)
+[Guanying Chen](https://guanyingc.github.io)\*, [Kai Han](http://www.hankai.org/)\*, [Kwan-Yee K. Wong](http://i.cs.hku.hk/~kykwong/)
 <br>
 (\* equal contribution)
 
