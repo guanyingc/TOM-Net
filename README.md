@@ -38,14 +38,14 @@ We provide:
 - Example code for synthetic data rendering
 - Code and models used in the journal extension <b>(New!)</b>
 
-If the automatic downloading scripts are not working, please download the trained models and the introduced dataset from One Drive ([Models and Datasets](https://connecthkuhk-my.sharepoint.com/:f:/g/personal/u3004356_connect_hku_hk/EmrIZ-qKwnNIsZkEz7lqPmQBT-JPi9BNWSjgFbGdRMv7Aw?e=79IKKd)).
+If the automatic downloading scripts are not working, please download the trained models and the introduced dataset from BaiduYun ([Models and Datasets](https://pan.baidu.com/s/1EHiiwK1BBlrXWGkqyYweaw?pwd=837t)).
 
 ## Testing
 #### Download Pretrained Model
 ```
 sh scripts/download_pretrained_model.sh
 ```
-If the above command is not working, please manually download the trained models from One Drive (Models, Datasets) and put them in `./data/models/`.
+If the above command is not working, please manually download the trained models from BaiduYun (Models, Datasets) and put them in `./data/models/`.
 
 #### Test on New Images
 ```shell
