@@ -142,14 +142,14 @@ If you find this code or the provided data useful in your research, please consi
 ```
 @inproceedings{chen2018tomnet,
   title={TOM-Net: Learning Transparent Object Matting from a Single Image},
-  author={Chen, Guanying and Han, Kai and Wong, Kwan-Yee K.},
+  author={Chen, Guanying and Han, Kai and Wong, Kwan-Yee~K.},
   booktitle={CVPR},
   year={2018}
 }
 
 @inproceedings{chen2019LTOM,
   title={Learning Transparent Object Matting},
-  author={Chen, Guanying and Han, Kai and Wong, Kwan-Yee K.},
+  author={Chen, Guanying and Han, Kai and Wong, Kwan-Yee~K.},
   booktitle={IJCV},
   year={2019}
 }
